@@ -4,87 +4,31 @@ using System.IO;
 namespace CashSearch
 {
     public static class CashSearch
-    {        
-        private static string _yandex = @"C:\Users\Admin\AppData\Local\Yandex\YandexBrowser\User Data\Default\Cache";
-        private static string _googleChrome = @"C:\Users\Admin\AppData\Local\Google\Chrome\User Data\Default\Cache";
-        private static string _opera = @"C:\Users\Admin\AppData\Local\Opera Software\Opera Stable\Cache";
+    {
+        public static string[] adr = new string[3]
+        {
+        @"C:\Users\Admin\AppData\Local\Google\Chrome\User Data\Default\Cache",        
+        @"C:\Users\Admin\AppData\Local\Opera Software\Opera Stable\Cache",
+        @"C:\Users\Admin\AppData\Local\Yandex\YandexBrowser\User Data\Default\Cache"
+        };
+              
 
         public static bool CashSearching(string path)
         {
-            return (Directory.Exists(path)) ;                           
-        }
-
-        public static bool YandexCashSearch()
-        {
-            if (CashSearching(_yandex))
+            if (Directory.Exists(path))
             {
                 return true;
             }
             return false;
         }
-        public static bool ChromeCashSearch()
+        public static string[] CashFiles(string path)
         {
-            if (CashSearching(_googleChrome))
-            {
-                return true;
-            }
-            return false;
-        }
-        public static bool OperaCashSearch()
-        {
-            if (CashSearching(_opera))
-            {                
-                return true;
-            }
-            return false;
-        }
-
-        public static string[] YandexCashFiles()
-        {
-            string[] files = Directory.GetFiles(_yandex);
+            string[] files = Directory.GetFiles(path);
             return files;
         }
-        public static string[] ChromeCashFiles()
-        {
-            string[] files = Directory.GetFiles(_googleChrome);
-            return files;
-        }
-
-        public static string[] OperaCashFiles()
-        {
-            string[] files = Directory.GetFiles(_opera);
-            return files;
-        }
-
-   
-
-
         public static void CashDelete(string path)
         {
             Directory.Delete(path, true);
-        }
-        public static void YandexCashDelete()
-        {
-            CashDelete(_yandex);
-        }
-        public static void ChromeCashDelete()
-        {
-           CashDelete(_googleChrome);
-        }
-        public static void OperaCashDelete()
-        {
-            CashDelete(_opera);
-        }
-
-        public static void AllDelete()
-        {
-            YandexCashDelete();
-            ChromeCashDelete();
-            OperaCashDelete();
-        }
-
-
-
-
+        }    
     }
 }

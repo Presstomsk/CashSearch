@@ -7,27 +7,31 @@ namespace CashSearch
     {
         static void Main()
         {
+            string[] chromeCashFiles;
+            string[] operaCashFiles;
+            string[] yandexCashFiles;
+
 
             Console.WriteLine("Чистка Кэш.Нажмите, чтобы удалить");
-            if (CashSearch.ChromeCashSearch() == true)
+            if (CashSearch.CashSearching(CashSearch.adr[0]) == true)
             {
                 Console.WriteLine("'G' кэш GoogleChrome");
             }
-            if (CashSearch.OperaCashSearch() == true)
+            if (CashSearch.CashSearching(CashSearch.adr[1]) == true)
             {
                 Console.WriteLine("'O' кэш Opera");
             }
-            if (CashSearch.YandexCashSearch() == true)
+            if (CashSearch.CashSearching(CashSearch.adr[2]) == true)
             {
                 Console.WriteLine("'Y' кэш YandexBrawser");
             }
-            if (CashSearch.ChromeCashSearch() == true || CashSearch.OperaCashSearch() == true || CashSearch.ChromeCashSearch() == true)
+            if (CashSearch.CashSearching(CashSearch.adr[0]) == true || CashSearch.CashSearching(CashSearch.adr[1]) == true || CashSearch.CashSearching(CashSearch.adr[2]) == true)
             {
                 Console.WriteLine("'A' кэш всех браузеров");
             }
             else
             {
-                Console.WriteLine("Кэш не найден, нажмите 'E' для выхода");
+                Console.WriteLine("Кэш не найден!");
                 Console.ReadKey();
 
             }
@@ -37,22 +41,24 @@ namespace CashSearch
             switch (key)
             {
                 case "G":
-                    string[] chrome = CashSearch.ChromeCashFiles();
-                    CashSearch.ChromeCashDelete();
+                    chromeCashFiles = CashSearch.CashFiles(CashSearch.adr[0]);
+                    CashSearch.CashDelete(CashSearch.adr[0]);
                     break;
                 case "O":
-                    string[] opera = CashSearch.OperaCashFiles();
-                    CashSearch.OperaCashDelete();
+                    operaCashFiles = CashSearch.CashFiles(CashSearch.adr[1]);
+                    CashSearch.CashDelete(CashSearch.adr[1]);
                     break;
                 case "Y":
-                    string[] yandex = CashSearch.YandexCashFiles();
-                    CashSearch.YandexCashDelete();
+                    yandexCashFiles = CashSearch.CashFiles(CashSearch.adr[2]);
+                    CashSearch.CashDelete(CashSearch.adr[2]);
                     break;
                 case "A":
-                    string[] chrome_2 = CashSearch.ChromeCashFiles();
-                    string[] opera_2 = CashSearch.OperaCashFiles();
-                    string[] yandex_2 = CashSearch.YandexCashFiles();
-                    CashSearch.AllDelete();
+                    chromeCashFiles = CashSearch.CashFiles(CashSearch.adr[0]);
+                    operaCashFiles = CashSearch.CashFiles(CashSearch.adr[1]);
+                    yandexCashFiles = CashSearch.CashFiles(CashSearch.adr[2]);
+                    CashSearch.CashDelete(CashSearch.adr[0]);
+                    CashSearch.CashDelete(CashSearch.adr[1]);
+                    CashSearch.CashDelete(CashSearch.adr[2]);
                     break;               
 
 
