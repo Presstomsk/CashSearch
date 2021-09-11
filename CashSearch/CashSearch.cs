@@ -14,20 +14,77 @@ namespace CashSearch
             return (Directory.Exists(path)) ;                           
         }
 
-        public static void YandexCashSearch()
+        public static bool YandexCashSearch()
         {
-            if (CashSearching(_yandex)) Console.WriteLine("Обнаружен Кэш Yandex");
+            if (CashSearching(_yandex))
+            {
+                return true;
+            }
+            return false;
         }
-        public static void ChromeCashSearch()
+        public static bool ChromeCashSearch()
         {
-            if (CashSearching(_googleChrome)) Console.WriteLine("Обнаружен Кэш Google Chrome");
+            if (CashSearching(_googleChrome))
+            {
+                return true;
+            }
+            return false;
         }
-        public static void OperaCashSearch()
+        public static bool OperaCashSearch()
         {
-            if (CashSearching(_opera)) Console.WriteLine("Обнаружен Кэш Opera");
+            if (CashSearching(_opera))
+            {                
+                return true;
+            }
+            return false;
         }
 
-        var files = Directory.GetFiles(_yandex);
+        public static string[] YandexCashFiles()
+        {
+            string[] files = Directory.GetFiles(_yandex);
+            return files;
+        }
+        public static string[] ChromeCashFiles()
+        {
+            string[] files = Directory.GetFiles(_googleChrome);
+            return files;
+        }
+
+        public static string[] OperaCashFiles()
+        {
+            string[] files = Directory.GetFiles(_opera);
+            return files;
+        }
+
+   
+
+
+        public static void CashDelete(string path)
+        {
+            Directory.Delete(path, true);
+        }
+        public static void YandexCashDelete()
+        {
+            CashDelete(_yandex);
+        }
+        public static void ChromeCashDelete()
+        {
+           CashDelete(_googleChrome);
+        }
+        public static void OperaCashDelete()
+        {
+            CashDelete(_opera);
+        }
+
+        public static void AllDelete()
+        {
+            YandexCashDelete();
+            ChromeCashDelete();
+            OperaCashDelete();
+        }
+
+
+
 
     }
 }
