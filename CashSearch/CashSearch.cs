@@ -26,9 +26,7 @@ namespace CashSearch
             string[] files = Directory.GetFiles(path);
             return files;
         }
-        public static void CashDelete(string path)
-        {
-            Directory.Delete(path, true);
-        }    
+        public static void CashDelete(string path) => Directory.Delete(path, true);
+        
     }
 }

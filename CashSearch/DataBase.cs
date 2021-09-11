@@ -10,8 +10,9 @@ namespace CashSearch
 {
     class DataBase
     {
+        string conection_str = "";
        /* private MySqlConnection db;
         private MySqlCommand command;*/
-
+       
     }
 }
