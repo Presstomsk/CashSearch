@@ -7,9 +7,7 @@ namespace CashSearch
     {
         static void Main()
         {            
-            CashSearch.YandexCashSearch();
-            CashSearch.ChromeCashSearch();
-            CashSearch.OperaCashSearch();
+           
         }
     }
 }

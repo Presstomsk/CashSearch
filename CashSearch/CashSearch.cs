@@ -27,5 +27,7 @@ namespace CashSearch
             if (CashSearching(_opera)) Console.WriteLine("Обнаружен Кэш Opera");
         }
 
+        var files = Directory.GetFiles(_yandex);
+
     }
 }
