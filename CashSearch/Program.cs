@@ -1,5 +1,5 @@
 ﻿using System;
-using System.IO;
+
 
 namespace CashSearch
 {
@@ -7,62 +7,78 @@ namespace CashSearch
     {
         static void Main()
         {
-            string[] chromeCashFiles;
-            string[] operaCashFiles;
-            string[] yandexCashFiles;
+            //Проверка наличия Кэш браузеров
 
+            int googleCFlag = CashSearch.CashSearching(CashSearch.adr[0]);
+            int operaCFlag = CashSearch.CashSearching(CashSearch.adr[1]);
+            int yandexCFlag = CashSearch.CashSearching(CashSearch.adr[2]);
 
-            Console.WriteLine("Чистка Кэш.Нажмите, чтобы удалить");
-            if (CashSearch.CashSearching(CashSearch.adr[0]) == true)
-            {
-                Console.WriteLine("'G' кэш GoogleChrome");
-            }
-            if (CashSearch.CashSearching(CashSearch.adr[1]) == true)
-            {
-                Console.WriteLine("'O' кэш Opera");
-            }
-            if (CashSearch.CashSearching(CashSearch.adr[2]) == true)
-            {
-                Console.WriteLine("'Y' кэш YandexBrawser");
-            }
-            if (CashSearch.CashSearching(CashSearch.adr[0]) == true || CashSearch.CashSearching(CashSearch.adr[1]) == true || CashSearch.CashSearching(CashSearch.adr[2]) == true)
-            {
-                Console.WriteLine("'A' кэш всех браузеров");
-            }
-            else
-            {
-                Console.WriteLine("Кэш не найден!");
-                Console.ReadKey();
+            //Реализация меню
 
+            Message message;
+            message = Show.StartString;
+            if (googleCFlag==1) message += Show.GoogleChromeInfo;
+            if (operaCFlag==1) message += Show.OperaInfo;
+            if (yandexCFlag==1) message += Show.YandexInfo;
+            if ((googleCFlag+operaCFlag+yandexCFlag)>1) message += Show.AllInfo;
+            message();
+            if (message == Show.StartString)
+            {
+                message = Show.NonResult;
+                message();
+                
             }
 
+            //Вывод на экран удаленных файлов, запись лога в БД, удаление файлов
 
-            var key = Console.ReadLine();
-            switch (key)
+            DataBase db = new DataBase();       
+            
+            bool flag = true;
+            if ((googleCFlag + operaCFlag + yandexCFlag) != 0)
             {
-                case "G":
-                    chromeCashFiles = CashSearch.CashFiles(CashSearch.adr[0]);
-                    CashSearch.CashDelete(CashSearch.adr[0]);
-                    break;
-                case "O":
-                    operaCashFiles = CashSearch.CashFiles(CashSearch.adr[1]);
-                    CashSearch.CashDelete(CashSearch.adr[1]);
-                    break;
-                case "Y":
-                    yandexCashFiles = CashSearch.CashFiles(CashSearch.adr[2]);
-                    CashSearch.CashDelete(CashSearch.adr[2]);
-                    break;
-                case "A":
-                    chromeCashFiles = CashSearch.CashFiles(CashSearch.adr[0]);
-                    operaCashFiles = CashSearch.CashFiles(CashSearch.adr[1]);
-                    yandexCashFiles = CashSearch.CashFiles(CashSearch.adr[2]);
-                    CashSearch.CashDelete(CashSearch.adr[0]);
-                    CashSearch.CashDelete(CashSearch.adr[1]);
-                    CashSearch.CashDelete(CashSearch.adr[2]);
-                    break;               
+                do
+                {
+                    var key = Console.ReadLine();
+                    if ((key == "1") && (googleCFlag == 1))
+                    {
+                        LoggingAndClearing(CashSearch.adr[0], db);
+                        break;
+                    }
+                    else if ((key == "2") && (operaCFlag == 1))
+                    {
+                        LoggingAndClearing(CashSearch.adr[1], db);
+                        break;
 
+                    }
+                    else if ((key == "3") && (yandexCFlag == 1))
+                    {
+                        LoggingAndClearing(CashSearch.adr[2], db);
+                        break;
 
+                    }
+                    else if ((key == "4") && ((googleCFlag + operaCFlag + yandexCFlag) > 1))
+                    {
+                        if (googleCFlag == 1) LoggingAndClearing(CashSearch.adr[0], db);
+                        if (operaCFlag == 1) LoggingAndClearing(CashSearch.adr[1], db);
+                        if (yandexCFlag == 1) LoggingAndClearing(CashSearch.adr[3], db);
+                        break;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Вы ввели неправильный пункт меню. Введите повторно");
+                        flag = false;
+                    }
+                } while (!flag);
             }
+           
+        }
+
+        public static void LoggingAndClearing(string adr, DataBase db)
+        {
+            string[] files = CashSearch.CashFiles(adr);
+            CashSearch.ShowFiles(files);
+            db.ExportToDB(files);
+            CashSearch.CashDelete(adr);
         }
     }
 }

@@ -1,8 +1,9 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
+using System;
 
 namespace CashSearch
 {
+   
     public static class CashSearch
     {
         public static string[] adr = new string[3]
@@ -13,20 +14,23 @@ namespace CashSearch
         };
               
 
-        public static bool CashSearching(string path)
+        public static int CashSearching(string path)
         {
-            if (Directory.Exists(path))
-            {
-                return true;
-            }
-            return false;
+            if (Directory.Exists(path)) return 1;
+            return 0;
         }
         public static string[] CashFiles(string path)
-        {
-            string[] files = Directory.GetFiles(path);
-            return files;
-        }
-        public static void CashDelete(string path) => Directory.Delete(path, true);
+        { return Directory.GetFiles(path); }
         
+        public static void CashDelete(string path) => Directory.Delete(path, true);
+
+        public static void ShowFiles(string[] files)
+        {
+            foreach (var file in files)
+            {
+                Console.WriteLine(file);
+            }
+        }
+
     }
 }
