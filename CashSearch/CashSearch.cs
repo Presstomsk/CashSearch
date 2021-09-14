@@ -3,7 +3,7 @@ using System;
 
 namespace CashSearch
 {
-   
+    
     public static class CashSearch
     {
         public static string[] adr = new string[3]
@@ -14,10 +14,10 @@ namespace CashSearch
         };
               
 
-        public static int CashSearching(string path)
+        public static bool CashSearching(string path)
         {
-            if (Directory.Exists(path)) return 1;
-            return 0;
+            if (Directory.Exists(path)) return true;
+            return false;
         }
         public static string[] CashFiles(string path)
         { return Directory.GetFiles(path); }

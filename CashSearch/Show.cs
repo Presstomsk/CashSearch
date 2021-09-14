@@ -17,5 +17,6 @@ namespace CashSearch
         public static void OperaInfo() => Console.WriteLine("2 - очистка кэш браузера Opera");
         public static void YandexInfo() => Console.WriteLine("3 - очистка кэш браузера Yandex");
         public static void AllInfo() => Console.WriteLine("4 - полная очистка");
+        public static void EndInfo() => Console.WriteLine("0 - выход из программы");
     }
 }
