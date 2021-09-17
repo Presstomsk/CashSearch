@@ -4,88 +4,86 @@ using System.Collections.Generic;
 
 namespace CashSearch
 {
+    
     class Program
     {
-        private delegate void Operations(string address, DataBase db);
-        private static Dictionary<string, Operations> _actions;
+        
+        private static Dictionary<string, Operations> _menu;
+        public static Dictionary<string, string> _cacheAddresses;
+        public static Dictionary<string, bool> _flags;
+
         static void Main()
-        {           
-                       
-            //Проверка наличия Кэш браузеров
+        {
+            DataBase db = new DataBase();
+            _cacheAddresses =new Dictionary<string, string>
+            {
+                {"1", CashSearch.adr[0]},
+                {"2", CashSearch.adr[1]},
+                {"3", CashSearch.adr[2]}
+            };
 
-           bool googleCFlag = CashSearch.CashSearching(CashSearch.adr[0]);
-           bool operaCFlag = CashSearch.CashSearching(CashSearch.adr[1]);
-           bool yandexCFlag = CashSearch.CashSearching(CashSearch.adr[2]);
-
-            //Реализация меню
+            _flags = new Dictionary<string, bool>
+               {
+                {"1", CashSearch.CashSearching(_cacheAddresses["1"])},
+                {"2", CashSearch.CashSearching(_cacheAddresses["2"])},
+                {"3", CashSearch.CashSearching(_cacheAddresses["3"])}                
+               };
+            _menu = new Dictionary<string, Operations>
+               {
+                {"1", LoggingAndClearing},
+                {"2", LoggingAndClearing},
+                {"3", LoggingAndClearing},                
+               };        
 
             Message message;
             message = Show.StartString;
-            if (googleCFlag) message += Show.GoogleChromeInfo;
-            if (operaCFlag) message += Show.OperaInfo;
-            if (yandexCFlag) message += Show.YandexInfo;
-            if ((Convert.ToInt32(googleCFlag)+ Convert.ToInt32(operaCFlag) + Convert.ToInt32(yandexCFlag)) >1) message += Show.AllInfo;
+            if (_flags["1"]) message += Show.GoogleChromeInfo;
+            if (_flags["2"]) message += Show.OperaInfo;
+            if (_flags["3"]) message += Show.YandexInfo;
+            if ((Convert.ToInt32(_flags["1"]) + Convert.ToInt32(_flags["2"]) + Convert.ToInt32(_flags["3"])) >1) message += Show.AllInfo;
             if (message != Show.StartString) message += Show.EndInfo;
             else message = Show.NonResult;      
             message();
 
+            
             //Вывод на экран удаленных файлов, запись лога в БД, удаление файлов
-            if (googleCFlag || operaCFlag || yandexCFlag)
+            if (_flags["1"] || _flags["2"] || _flags["3"])
             {
-                _actions = new Dictionary<string, Operations>
-               {                    
-                {"1", LoggingAndClearing},
-                {"2", LoggingAndClearing},
-                {"3", LoggingAndClearing},
-                {"4",null}
-               };
-
-                DataBase db = new DataBase();
+                
                 bool flag=true;
                 do
                 {
                     var key = Console.ReadLine();
-                    if (key != "4") flag = Actions(key, db);
-                    else
-                    {
-                        if ((Convert.ToInt32(googleCFlag) + Convert.ToInt32(operaCFlag) + Convert.ToInt32(yandexCFlag)) <= 1)
-                        {
-                            Console.WriteLine("Вы ввели неправильный пункт меню. Введите повторно");
-                            flag = false;
-                        }
-                        else
-                        {
-                            if (googleCFlag) flag = Actions("1", db);
-                            if (operaCFlag) flag = Actions("2", db);
-                            if (yandexCFlag) flag = Actions("3", db);
-                        }
-                    }
+                    
+                    if (_menu.ContainsKey(key)) flag = ActionLogic.Actions(_menu, key, _cacheAddresses[key],_flags[key],db);
+                    else  flag=ActionLogic.FalseChoice();
+                    /* else
+                     {
+                         if ((Convert.ToInt32(googleCFlag) + Convert.ToInt32(operaCFlag) + Convert.ToInt32(yandexCFlag)) <= 1)
+                         {
+                             ActionLogic.FalseChoice();
+                         }
+                         else
+                         {
+                             if (googleCFlag) flag = Actions("1", db);
+                             if (operaCFlag) flag = Actions("2", db);
+                             if (yandexCFlag) flag = Actions("3", db);
+                         }
+                     }*/
 
                 } while (!flag);
                 
                 
             }        
         
-        }
-        public static bool Actions(string key, DataBase db)
+        }                    
+        public static void LoggingAndClearing(string address, DataBase db)
         {
-            
-            if (!_actions.ContainsKey(key))
-            {
-                if (key=="0") return true;                               
-                Console.WriteLine("Вы ввели неправильный пункт меню. Введите повторно");
-                return false;
-            }           
-            LoggingAndClearing(CashSearch.adr[Convert.ToInt32(key) - 1], db);
-            return true;            
-        }
-
-        public static void LoggingAndClearing(string adr, DataBase db)
-        {
-            string[] files = CashSearch.CashFiles(adr);
+            Console.WriteLine(address);
+            string[] files = CashSearch.CashFiles(address);
             CashSearch.ShowFiles(files);
             db.ExportToDB(files);
-            CashSearch.CashDelete(adr);            
+            CashSearch.CashDelete(address);           
         }
     }
 }
