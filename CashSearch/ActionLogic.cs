@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CashSearch
 {
-    public delegate void Operations(string address);
+    
     
     public static class ActionLogic
     {

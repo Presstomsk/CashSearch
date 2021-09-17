@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace CashSearch
 {
-    
+    public delegate void Operations(string address);
     class Program
     {
         
