@@ -55,7 +55,11 @@ namespace CashSearch
                 _flags["4"] = true;
 
             }
-            if (message != Show.StartString) message += Show.EndInfo;
+            if (message != Show.StartString)
+            {
+                message += Show.EndInfo;
+                message();
+            }
             else
             {
                 message = Show.NonResult;
