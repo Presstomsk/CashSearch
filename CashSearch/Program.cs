@@ -15,6 +15,7 @@ namespace CashSearch
         static void Main()
         {
             bool flagAll = false;
+            bool flag = false;
             _cacheAddresses =new Dictionary<string, string> //Словарь адресов папок кэша
             {
                 {"0",null},
@@ -60,22 +61,22 @@ namespace CashSearch
                 message = Show.NonResult;
                 message();
                 Console.ReadKey();
-                Environment.Exit(0);
+                flag = true;
             }
 
-            
+
             //Вывод на экран удаленных файлов, запись лога в БД, удаление файлов
-                          
-                bool flag=true;
-                do
-                {
+
+
+            while (!flag) 
+               {
                     var key = Console.ReadLine();                    
                     flag = ActionLogic.Actions(_menu, key);
                
-                } while (!flag);
+               } 
                 
                 
-                   
+                    
         
         }                    
         public static void LoggingAndClearing(string address) 
