@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 
 
 namespace CashSearch
@@ -13,7 +14,8 @@ namespace CashSearch
         public static Dictionary<string, bool> _flags;
 
         static void Main()
-        {
+        {                      
+
             bool flagAll = false;
             bool flag = false;
             _cacheAddresses =new Dictionary<string, string> //Словарь адресов папок кэша

@@ -6,11 +6,14 @@ namespace CashSearch
 
     public static class CashSearch
     {
+        private static string _system = Environment.GetFolderPath(Environment.SpecialFolder.System);
+        private static string _path = Path.GetPathRoot(_system);
+
         public static string[] adr = new string[3]
         {
-        @"C:\Users\Admin\AppData\Local\Google\Chrome\User Data\Default\Cache",
-        @"C:\Users\Admin\AppData\Local\Opera Software\Opera Stable\Cache",
-        @"C:\Users\Admin\AppData\Local\Yandex\YandexBrowser\User Data\Default\Cache"
+        @$"{_path}Users\Admin\AppData\Local\Google\Chrome\User Data\Default\Cache",
+        @$"{_path}Users\Admin\AppData\Local\Opera Software\Opera Stable\Cache",
+        @$"{_path}Users\Admin\AppData\Local\Yandex\YandexBrowser\User Data\Default\Cache"
         };
 
 
