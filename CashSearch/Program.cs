@@ -77,9 +77,9 @@ namespace CashSearch
             while (!flag) 
                {
                     var key = Console.ReadLine();                    
-                    flag = ActionLogic.Actions(_menu, key);
-               
+                    flag = ActionLogic.Actions(_menu, key);               
                } 
+
                 
                 
                     
@@ -88,11 +88,11 @@ namespace CashSearch
         public static void LoggingAndClearing(string address) 
         {
             DataBase db = new DataBase();
-            string[] files = CashSearch.CashFiles(address);
-            Console.WriteLine("УДАЛЕНИЕ ФАЙЛОВ");
+            string[] files = CashSearch.CashFiles(address);            
             CashSearch.ShowFiles(files);
             db.ExportToDB(files);
-            CashSearch.CashDelete(address);           
+            try { CashSearch.CashDelete(address); }
+            catch (UnauthorizedAccessException) { Console.WriteLine("Ошибка очистки кэша! Пожалуйста, закройте браузер!"); }
         }
         public static void AllLoggingAndClearing(string address)
         {
